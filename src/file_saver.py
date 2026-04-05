@@ -67,7 +67,7 @@ class JSONSaver(BaseFileSaver):
                         item['on_ground']
                     )
                     result.append(aeroplane)
-                except ValueError:
+                except (ValueError, KeyError):
                     continue
         return result
 

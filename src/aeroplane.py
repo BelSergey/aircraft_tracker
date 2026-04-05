@@ -73,11 +73,11 @@ class Aeroplane:
             return None
         try:
             v = float(value)
-            if v < 0:
-                raise ValueError("Скорость не может быть отрицательной")
-            return v
         except (TypeError, ValueError):
             return None
+        if v < 0:
+            raise ValueError("Скорость не может быть отрицательной")
+        return v
 
     @staticmethod
     def _validate_altitude(value: Any) -> Optional[float]:
@@ -85,11 +85,11 @@ class Aeroplane:
             return None
         try:
             a = float(value)
-            if a < -1000:
-                raise ValueError("Некорректная высота")
-            return a
         except (TypeError, ValueError):
             return None
+        if a < -1000:
+            raise ValueError("Некорректная высота")
+        return a
 
     @staticmethod
     def _validate_heading(value: Any) -> Optional[float]:
@@ -97,11 +97,11 @@ class Aeroplane:
             return None
         try:
             h = float(value)
-            if not (0 <= h <= 360):
-                raise ValueError("Курс должен быть в диапазоне 0-360")
-            return h
         except (TypeError, ValueError):
             return None
+        if not (0 <= h <= 360):
+            raise ValueError("Курс должен быть в диапазоне 0-360")
+        return h
 
     def __lt__(self, other: 'Aeroplane') -> bool:
         """Сравнение по высоте (меньше)."""
@@ -116,10 +116,14 @@ class Aeroplane:
         return self.altitude > other.altitude
 
     def __le__(self, other: 'Aeroplane') -> bool:
-        return self < other or self == other
+        if self.altitude is None or other.altitude is None:
+            return False
+        return self.altitude <= other.altitude
 
     def __ge__(self, other: 'Aeroplane') -> bool:
-        return self > other or self == other
+        if self.altitude is None or other.altitude is None:
+            return False
+        return self.altitude >= other.altitude
 
     def __eq__(self, other: 'Aeroplane') -> bool:
         return (self.icao24 == other.icao24 and
