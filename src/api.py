@@ -10,13 +10,12 @@ class BaseAPI(ABC):
         self._base_url = base_url
 
     def _connect(self, endpoint: str, params: Optional[Dict] = None) -> requests.Response:
-        """
-        Приватный метод для выполнения запроса к API.
-        Проверяет статус ответа и возвращает Response.
-        """
         url = f"{self._base_url}/{endpoint}" if endpoint else self._base_url
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+        }
         try:
-            response = requests.get(url, params=params, timeout=10)
+            response = requests.get(url, params=params, headers=headers, timeout=10)
             response.raise_for_status()
             return response
         except requests.RequestException as e:
@@ -70,10 +69,12 @@ class AeroplanesAPI(BaseAPI):
             'lomin': west,
             'lomax': east
         }
-
         url = self._opensky_url
+        headers = {
+            'User-Agent': 'AircraftTracker/1.0 (your_email@example.com)'
+        }
         try:
-            response = requests.get(url, params=params, timeout=10)
+            response = requests.get(url, params=params, headers=headers, timeout=10)
             response.raise_for_status()
             data = response.json()
             return data.get('states', [])
