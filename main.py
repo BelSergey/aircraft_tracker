@@ -39,6 +39,10 @@ def user_interaction():
         print("4. Выйти")
         choice = input("Ваш выбор: ").strip()
 
+        if not choice:
+            print("Ввод не может быть пустым. Пожалуйста, введите 1, 2, 3 или 4.")
+            continue
+
         if choice == '1':
             try:
                 n = int(input("Введите N: "))
@@ -48,9 +52,10 @@ def user_interaction():
                 else:
                     print(f"\nТоп {n} по высоте:")
                     for i, p in enumerate(top, 1):
-                        print(f"{i}. {p.callsign or 'N/A'} ({p.origin_country}) - высота {p.altitude} м, скорость {p.velocity} м/с")
+                        print(
+                            f"{i}. {p.callsign or 'N/A'} ({p.origin_country}) - высота {p.altitude} м, скорость {p.velocity} м/с")
             except ValueError:
-                print("Некорректный ввод.")
+                print("Некорректный ввод числа N.")
 
         elif choice == '2':
             countries_input = input("Введите страны через запятую: ")
@@ -75,8 +80,9 @@ def user_interaction():
 
         elif choice == '4':
             break
+
         else:
-            print("Неверный пункт.")
+            print(f"Неверный пункт: '{choice}'. Введите 1, 2, 3 или 4.")
 
 
 if __name__ == "__main__":
