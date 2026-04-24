@@ -25,10 +25,13 @@ class BaseFileSaver(ABC):
 
 
 class JSONSaver(BaseFileSaver):
-    """Реализация для работы с JSON-файлом."""
-
     def __init__(self, filename: str = "aeroplanes.json"):
         self.__filename = filename
+
+    @property
+    def filename(self) -> str:
+        """Возвращает имя файла, в который сохраняются данные."""
+        return self.__filename
 
     def _load_data(self) -> List[dict]:
         """Загружает данные из JSON-файла."""
@@ -78,12 +81,14 @@ class JSONSaver(BaseFileSaver):
 
 
 class CSVSaver(BaseFileSaver):
-    """Дополнительная реализация для работы с CSV-файлом."""
-
     def __init__(self, filename: str = "aeroplanes.csv"):
         self.__filename = filename
         self._fieldnames = ['icao24', 'callsign', 'origin_country', 'velocity',
                             'altitude', 'heading', 'on_ground']
+
+    @property
+    def filename(self) -> str:
+        return self.__filename
 
     def _load_data(self) -> List[dict]:
         try:

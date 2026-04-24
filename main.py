@@ -53,7 +53,9 @@ def user_interaction():
                     print(f"\nТоп {n} по высоте:")
                     for i, p in enumerate(top, 1):
                         print(
-                            f"{i}. {p.callsign or 'N/A'} ({p.origin_country}) - высота {p.altitude} м, скорость {p.velocity} м/с")
+                            f"{i}. {p.callsign or 'N/A'} ({p.origin_country}) - "
+                            f"высота {p.altitude} м, скорость {p.velocity} м/с"
+                        )
             except ValueError:
                 print("Некорректный ввод числа N.")
 
